@@ -1,9 +1,10 @@
 import React from 'react'
+import * as Styled from "./style"
 
-export default function Input() {
+export default function Input(props) {
     return (
-        <div>
-            
-        </div>
+        <Styled.InputField >
+            <Styled.InputStyle placeholder={props.text} />
+        </Styled.InputField>
     )
 }

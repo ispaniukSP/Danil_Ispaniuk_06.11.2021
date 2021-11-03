@@ -12,7 +12,7 @@ const LightTheme ={
   pageBackground:'#F2EDD7',
   headerBackground: '#ddc3a5',
   headerColor:'#1d3c45',
-  contentBackground: '#333D79FF',
+  contentBackground: '#755139',
   contentColor: '',
 }
 
