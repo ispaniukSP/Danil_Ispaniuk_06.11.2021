@@ -3,7 +3,7 @@ import * as Styled from './style'
 import {BsCloudSunFill} from 'react-icons/bs'
 import {BsFillCloudMoonFill} from 'react-icons/bs'
 import { Flex } from './../Flex/Flex';
-import Navigation from '../Navigation/Navigation';
+import {Navigation} from '../Navigation/Navigation';
 
 
 export default function Header(props) {

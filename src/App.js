@@ -1,5 +1,11 @@
 import React, {useState} from "react";
-import HomePage from "./Components/Home/HomePage";
+import HomePage from './Components/Home/HomePage';
+import { Favorite }  from './Components/Favorite/Favorite';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
 
 const LightTheme ={
@@ -27,7 +33,16 @@ function App() {
   const [theme, setTheme] = useState("light")
   return (
     <ThemeProvider theme={themes[theme]}>
-      <HomePage theme={theme} setTheme={setTheme} />
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <HomePage  theme={theme} setTheme={setTheme} />
+          </Route>
+          <Route path="/favorite">
+            <Favorite  theme={theme} setTheme={setTheme} />
+          </Route>
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 }

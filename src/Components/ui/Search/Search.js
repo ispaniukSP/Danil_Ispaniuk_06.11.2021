@@ -3,8 +3,7 @@ import { InputText } from 'primereact/inputtext';
 
 export default function Search(props) {
     return (
-        <span className="p-input-icon-left">
-            <i className="pi pi-search" />
+        <span>
             <InputText  placeholder="Search" />
         </span>
     )
