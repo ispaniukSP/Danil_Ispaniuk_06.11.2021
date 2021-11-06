@@ -6,7 +6,7 @@ import Main from './../Main/Main';
 
 export default function HomePage(props) {
     return (
-      <Styled.Wrapper {...props}>
+      <Styled.Wrapper {...props.theme}>
           <Header {...props} />
           <Main {...props} />
       </Styled.Wrapper>

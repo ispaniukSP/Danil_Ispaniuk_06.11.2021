@@ -12,16 +12,20 @@ const LightTheme ={
   pageBackground:'#F2EDD7',
   headerBackground: '#ddc3a5',
   headerColor:'#1d3c45',
-  contentBackground: '#755139',
+  contentBackground: '#b38867',
   contentColor: '',
+  searchColor:"#282c36",
+  searchBorder: "#be762a"
 }
 
 const DarkTheme ={
   pageBackground:'#282c36',
-  headerBackground: '#282c36',
+  headerBackground: '#1e1f26',
   headerColor:'white',
-  contentBackground: '',
+  contentBackground: '#283655',
   contentColor: '',
+  searchColor:"#fff",
+  searchBorder: "#ffffffa3",
 }
 
 const themes ={

@@ -1,11 +1,12 @@
 import React from 'react'
 import Header from '../Header/Header'
+import * as Styled from './style'
 
-export const Favorite = () => {
+export const Favorite = (props) => {
     return (
-        <div>
-            <Header />
+        <Styled.Wrapper {...props.theme}>
+            <Header {...props} />
             Favorite
-        </div>
+        </Styled.Wrapper>
     )
 }

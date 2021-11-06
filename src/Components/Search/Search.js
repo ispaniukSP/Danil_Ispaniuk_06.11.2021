@@ -1,26 +1,54 @@
-import React, { useState } from 'react'
-import Input from './../ui/Input/Input';
+import React, { useCallback, useEffect, useState } from 'react'
+import { getSearchWeather } from '../../api/index';
 import { BsSearch } from "react-icons/bs";
-import * as Styled from './style'
+import { debounce } from 'lodash';
+import * as Styled from './style';
 
 export default function Search(props) {
-    const [location, setLocation] = useState('')
-    const {submitSearch} = props
+    const [city, setCity] = useState('')
+    const [activeDropDown, setActiveDropDown] = useState(false)
+    const [locations, setLocations] = useState('')
+    const {submitSearch, setCityName} = props
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        if(!location) return ;
-        submitSearch(location)
+    const getRegionID = (city) => {
+        setActiveDropDown(false)
+        submitSearch(city?.Key)
+        setCityName(city?.LocalizedName)
     }
 
+    useEffect(async() => {
+        if(!city) return ;
+        const response = await getSearchWeather(city);
+        setLocations(response)
+        setActiveDropDown(true)
+    }, [city])
+
+    const handleChange =  debounce((text) => setCity(text), 1000)
+
     return (
-        <Styled.SearchFrom onSubmit={onSubmit}>
-            <BsSearch size={20} color='#474747' />
+        <Styled.SearchFrom {...props.theme}>
+            <BsSearch size={20} color="#424242"/>
             <Styled.SearchInput 
+                {...props.theme}
                 placeholder="Search..." 
-                value={location}
-                onChange={e => setLocation(e.target.value)} 
+                onChange={e => handleChange(e.target.value)} 
             />
+            {
+                activeDropDown  && locations && 
+                    <Styled.DropDown>
+                        {locations.map((cityItem) => {
+                            return(
+                                <Styled.DropDownItem 
+                                    key={cityItem?.Key} 
+                                    onClick={() => getRegionID(cityItem)}
+                                >
+                                {cityItem.AdministrativeArea.LocalizedName}, {cityItem.Country.LocalizedName}
+                                </Styled.DropDownItem>
+                                )
+                            }
+                        )}
+                    </Styled.DropDown>  
+            }
         </Styled.SearchFrom>
     )
 }
