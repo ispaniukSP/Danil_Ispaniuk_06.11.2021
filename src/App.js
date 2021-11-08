@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import HomePage from './Components/Home/HomePage';
-import { Favorite }  from './Components/Favorite/Favorite';
+import { Favourite }  from './Components/Favourite/Favourite';
 import {
   BrowserRouter as Router,
   Switch,
@@ -35,15 +35,27 @@ const themes ={
 
 function App() {
   const [theme, setTheme] = useState("light")
+  const [toggleTemp, setToggleTemp] = useState(false)
+
   return (
     <ThemeProvider theme={themes[theme]}>
       <Router>
         <Switch>
           <Route exact path="/">
-            <HomePage  theme={theme} setTheme={setTheme} />
+            <HomePage  
+              theme={theme} 
+              setTheme={setTheme} 
+              toggleTemp={toggleTemp} 
+              setToggleTemp={setToggleTemp} 
+            />
           </Route>
           <Route path="/favorite">
-            <Favorite  theme={theme} setTheme={setTheme} />
+            <Favourite  
+              theme={theme} 
+              setTheme={setTheme} 
+              toggleTemp={toggleTemp} 
+              setToggleTemp={setToggleTemp} 
+            />
           </Route>
         </Switch>
       </Router>

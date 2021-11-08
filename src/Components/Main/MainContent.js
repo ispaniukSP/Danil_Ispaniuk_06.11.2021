@@ -3,18 +3,44 @@ import * as Styled from './style'
 import { Flex } from './../Flex/Flex';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { MainForecast } from './MainForecast';
+import ChangeUnitTemp from '../Common/ChangeUnitTemp';
 
 const MainContent = (props) => {
     const [activeHeart, setActiveHeart] = useState(false)
     const [forecast, setForecast] = useState([])
-    const {cityForecast, city} = props;
+    const [cityName, setCityName] = useState()
+    const {cityForecast, city, toggleTemp} = props;
+    const {getCelsius, getFahrenheit} = ChangeUnitTemp();
 
     useEffect(async () => {
         cityForecast && setForecast(cityForecast.DailyForecasts)
     }, [cityForecast])
-    
+
+    useEffect(() =>{
+        setCityName(city)
+        !!localStorage.getItem(`city-${city}`) ? setActiveHeart(true) : setActiveHeart(false)
+    }, [city])
     const addToFav = () => {
-        !activeHeart ? setActiveHeart(true) : setActiveHeart(false) 
+        const conditionAddToFav = () => {
+            const cityObject = {
+                name: city,
+                temp: forecast[0].Temperature.Maximum.Value,
+            }
+            localStorage.setItem(`city-${city}`, JSON.stringify(cityObject) )
+           return setActiveHeart(true)
+        }
+
+        const conditionRemoveFromFav = () => {
+            localStorage.removeItem(`city-${city}`)
+            return setActiveHeart(false)
+         }
+
+        activeHeart ? conditionRemoveFromFav () : conditionAddToFav()
+        
+    }
+
+    const getUnitTemp = (temp) => {
+        return toggleTemp ? getFahrenheit(temp) : getCelsius(temp);
     }
 
     return (
@@ -33,8 +59,8 @@ const MainContent = (props) => {
                             direction="column"
                             padding="0 0 0 10px"
                         >
-                            <Styled.CityName>{city || "Tel Aviv"}</Styled.CityName>
-                            <Styled.CityTemperature>{forecast.length && forecast[0].Temperature.Maximum.Value}</Styled.CityTemperature>
+                            <Styled.CityName>{cityName}</Styled.CityName>
+                            <Styled.CityTemperature>{forecast.length && getUnitTemp(forecast[0].Temperature.Maximum.Value)}</Styled.CityTemperature>
                         </Flex>
                     </Flex>
 
@@ -52,12 +78,12 @@ const MainContent = (props) => {
 
                 <Flex width="100%" align="center" justify="center">
                     <Styled.WeatherForecast>
-                        {cityForecast?.Headline.Text}
+                        {cityForecast?.Headline?.Text}
                     </Styled.WeatherForecast>
                 </Flex>
 
                 <Flex width="100%">
-                    <MainForecast forecast={forecast} />
+                    <MainForecast toggleTemp={toggleTemp} forecast={forecast} />
                 </Flex>
             </Flex>
            

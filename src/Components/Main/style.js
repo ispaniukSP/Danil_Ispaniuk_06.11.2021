@@ -39,21 +39,28 @@ export const ToggleHeart = styled.button`
     border-radius: 50%;
 `
 export const ButtonFavorite = styled.button`
-    border: 1px solid #474747;
+    border: 1px solid #fff;
     ouline none;
-    background-color: #ccc;
+    color: white;
+    background-color: transparent;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 10px;
+    transition: all .3s linear;
+    &:hover{
+        background: #F76C6C;
+    }
 `
 export const WeatherForecast = styled.p`
     font-size: 30px;
+    color: white;
 `
 export const Forecast = styled.div`
     width: 150px;
     height: 200px;
     background: #ccccccd7;
+    color: #474747;
     margin-bottom: 20px;
     border-radius: 10px;
     &:not(:last-child){

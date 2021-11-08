@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import * as Styled from './style'
 import {BsCloudSunFill} from 'react-icons/bs'
 import {BsFillCloudMoonFill} from 'react-icons/bs'
@@ -7,12 +7,16 @@ import {Navigation} from '../Navigation/Navigation';
 
 
 export default function Header(props) {
-
+    const {theme,setTheme, toggleTemp, setToggleTemp} = props
     const changeTheme = () => {
-        props.theme === "light" ? props.setTheme("dark") : props.setTheme("light");
+        theme === "light" ? setTheme("dark") : setTheme("light");
     }
 
-    const icon = props.theme === "light" ? <BsCloudSunFill size={30} /> : <BsFillCloudMoonFill size={30} />
+    const changeUnitTemp = () => {
+        toggleTemp ? setToggleTemp(false) : setToggleTemp(true);
+    }
+
+    const icon = theme === "light" ? <BsCloudSunFill size={30} /> : <BsFillCloudMoonFill size={30} />
 
     return (
         <Styled.Header {...props.theme}>
@@ -22,6 +26,10 @@ export default function Header(props) {
                 </Styled.HeaderTitle>
 
                 <Flex align="center">
+                    <Styled.Toggle onClick={changeUnitTemp}>
+                        Temp
+                    </Styled.Toggle>
+
                     <Styled.Toggle onClick={changeTheme}>
                         {icon}
                     </Styled.Toggle>
