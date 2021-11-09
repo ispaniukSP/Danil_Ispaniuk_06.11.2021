@@ -1,20 +1,27 @@
-import React, {useState} from 'react'
+import React from 'react'
 import * as Styled from './style'
 import {BsCloudSunFill} from 'react-icons/bs'
 import {BsFillCloudMoonFill} from 'react-icons/bs'
+import { FaThermometerHalf } from "react-icons/fa";
 import { Flex } from './../Flex/Flex';
 import {Navigation} from '../Navigation/Navigation';
+import { useDispatch } from 'react-redux';
+import { changeTemp } from './../../store/actions';
+
 
 
 export default function Header(props) {
-    const {theme,setTheme, toggleTemp, setToggleTemp} = props
+    const {theme, setTheme} = props
+    const dispatch = useDispatch()
+
     const changeTheme = () => {
         theme === "light" ? setTheme("dark") : setTheme("light");
     }
 
     const changeUnitTemp = () => {
-        toggleTemp ? setToggleTemp(false) : setToggleTemp(true);
+        dispatch(changeTemp())
     }
+
 
     const icon = theme === "light" ? <BsCloudSunFill size={30} /> : <BsFillCloudMoonFill size={30} />
 
@@ -27,7 +34,7 @@ export default function Header(props) {
 
                 <Flex align="center">
                     <Styled.Toggle onClick={changeUnitTemp}>
-                        Temp
+                        <FaThermometerHalf size={30} />
                     </Styled.Toggle>
 
                     <Styled.Toggle onClick={changeTheme}>

@@ -4,15 +4,17 @@ import { Flex } from './../Flex/Flex';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { MainForecast } from './MainForecast';
 import ChangeUnitTemp from '../Common/ChangeUnitTemp';
+import {useSelector } from 'react-redux';
 
 const MainContent = (props) => {
     const [activeHeart, setActiveHeart] = useState(false)
     const [forecast, setForecast] = useState([])
     const [cityName, setCityName] = useState()
-    const {cityForecast, city, toggleTemp} = props;
+    const {cityForecast, city} = props;
     const {getCelsius, getFahrenheit} = ChangeUnitTemp();
+    const getTemp = useSelector(state => state.temp)
 
-    useEffect(async () => {
+    useEffect(() => {
         cityForecast && setForecast(cityForecast.DailyForecasts)
     }, [cityForecast])
 
@@ -25,6 +27,7 @@ const MainContent = (props) => {
             const cityObject = {
                 name: city,
                 temp: forecast[0].Temperature.Maximum.Value,
+                cityID: localStorage.getItem("cityID"),
             }
             localStorage.setItem(`city-${city}`, JSON.stringify(cityObject) )
            return setActiveHeart(true)
@@ -40,7 +43,7 @@ const MainContent = (props) => {
     }
 
     const getUnitTemp = (temp) => {
-        return toggleTemp ? getFahrenheit(temp) : getCelsius(temp);
+        return getTemp ? getFahrenheit(temp) : getCelsius(temp);
     }
 
     return (
@@ -59,14 +62,14 @@ const MainContent = (props) => {
                             direction="column"
                             padding="0 0 0 10px"
                         >
-                            <Styled.CityName>{cityName}</Styled.CityName>
+                            <Styled.CityName>{localStorage.getItem('cityName') || cityName}</Styled.CityName>
                             <Styled.CityTemperature>{forecast.length && getUnitTemp(forecast[0].Temperature.Maximum.Value)}</Styled.CityTemperature>
                         </Flex>
                     </Flex>
 
                     <Flex height="max-content">
                         <Styled.ToggleHeart>
-                            {!activeHeart ? <AiOutlineHeart size={30} /> : <AiFillHeart size={30} />}
+                            {!activeHeart ? <AiOutlineHeart color="white" size={30} /> : <AiFillHeart color="#fff" size={30} />}
                         </Styled.ToggleHeart>
 
                         <Styled.ButtonFavorite onClick={addToFav}>
@@ -76,14 +79,14 @@ const MainContent = (props) => {
 
                 </Flex>
 
-                <Flex width="100%" align="center" justify="center">
+                <Flex margin="30px 0" width="100%" align="center" justify="center">
                     <Styled.WeatherForecast>
                         {cityForecast?.Headline?.Text}
                     </Styled.WeatherForecast>
                 </Flex>
 
-                <Flex width="100%">
-                    <MainForecast toggleTemp={toggleTemp} forecast={forecast} />
+                <Flex width="100%" wrap="wrap">
+                    <MainForecast forecast={forecast} />
                 </Flex>
             </Flex>
            

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { getSearchWeather } from '../../api/index';
 import { BsSearch } from "react-icons/bs";
 import { debounce } from 'lodash';
@@ -12,21 +12,37 @@ export default function Search(props) {
 
     const getRegionID = (city) => {
         setActiveDropDown(false)
-        submitSearch(city?.Key)
-        setCityName(city?.LocalizedName)
+        localStorage.setItem('cityID', city.Key)
+        submitSearch(city.Key)
+        setCityName(city.LocalizedName)
     }
 
     useEffect(async() => {
-        if(!city) return ;
-        const response = await getSearchWeather(city);
-        setLocations(response)
-        setActiveDropDown(true)
+        if(!city){
+            setActiveDropDown(false)
+            return ;
+        } else{
+            const response = await getSearchWeather(city);
+            setLocations(response)
+            setActiveDropDown(true)
+        }
     }, [city])
 
-    const handleChange =  debounce((text) => setCity(text), 1000)
+    const onSubmit = (e) => {
+        e.preventDefault()
+        const cityName = e.target[0].value;
+        const getCityKey = locations[0]?.Key
+        localStorage.setItem('cityID', getCityKey)
+        city && setCity(cityName)
+        city && submitSearch(getCityKey)
+        city && setCityName(cityName)
+        setActiveDropDown(false)
+    }
+
+    const handleChange =  debounce((text) => setCity(text), 500)
 
     return (
-        <Styled.SearchFrom {...props.theme}>
+        <Styled.SearchFrom {...props.theme} onSubmit={onSubmit}>
             <BsSearch size={20} color="#424242"/>
             <Styled.SearchInput 
                 {...props.theme}
@@ -34,7 +50,7 @@ export default function Search(props) {
                 onChange={e => handleChange(e.target.value)} 
             />
             {
-                activeDropDown  && locations && 
+                activeDropDown  && locations.length > 0 && 
                     <Styled.DropDown>
                         {locations.map((cityItem) => {
                             return(

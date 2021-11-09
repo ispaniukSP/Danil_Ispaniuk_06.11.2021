@@ -1,31 +1,43 @@
 import React, {useState} from "react";
-import HomePage from './Components/Home/HomePage';
-import { Favourite }  from './Components/Favourite/Favourite';
+import { createStore } from "redux";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
+
+import { Favourite }  from './Components/Favourite/Favourite';
 import { ThemeProvider } from 'styled-components';
+import HomePage from "./Components/Home/HomePage";
+import allReducers from './store/index';
+import { Provider } from "react-redux";
 
 const LightTheme ={
   pageBackground:'#F2EDD7',
   headerBackground: '#ddc3a5',
   headerColor:'#1d3c45',
+  buttonBackColor: '#f2edd7',
+  buttonColor: '#474747',
+  buttonHover: '#fff',
+  buttonHoverColor: '#474747',
   contentBackground: '#b38867',
-  contentColor: '',
   searchColor:"#282c36",
-  searchBorder: "#be762a"
+  searchBorder: "#be762a",
+  favouriteBg: '#b38867',
 }
 
 const DarkTheme ={
   pageBackground:'#282c36',
   headerBackground: '#1e1f26',
   headerColor:'white',
+  buttonBackColor: '#4D648D',
+  buttonColor: '#fff',
+  buttonHover: '#fff',
+  buttonHoverColor: '#474747',
   contentBackground: '#283655',
-  contentColor: '',
   searchColor:"#fff",
   searchBorder: "#ffffffa3",
+  favouriteBg: '#4D648D',
 }
 
 const themes ={
@@ -33,32 +45,33 @@ const themes ={
   dark: DarkTheme
 }
 
+const store = createStore(
+  allReducers
+)
+
 function App() {
   const [theme, setTheme] = useState("light")
-  const [toggleTemp, setToggleTemp] = useState(false)
 
   return (
     <ThemeProvider theme={themes[theme]}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <HomePage  
-              theme={theme} 
-              setTheme={setTheme} 
-              toggleTemp={toggleTemp} 
-              setToggleTemp={setToggleTemp} 
-            />
-          </Route>
-          <Route path="/favorite">
-            <Favourite  
-              theme={theme} 
-              setTheme={setTheme} 
-              toggleTemp={toggleTemp} 
-              setToggleTemp={setToggleTemp} 
-            />
-          </Route>
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <HomePage  
+                theme={theme} 
+                setTheme={setTheme} 
+              />
+            </Route>
+            <Route path="/favourite">
+              <Favourite  
+                theme={theme} 
+                setTheme={setTheme} 
+              />
+            </Route>
+          </Switch>
+        </Router>
+      </Provider>
     </ThemeProvider>
   );
 }

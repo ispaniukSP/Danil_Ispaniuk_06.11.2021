@@ -17,18 +17,23 @@ export const Favourite = styled.div`
 export const FavouriteItem = styled.div`
     width: 220px;
     height: 320px;
-    background: #b38867;
+    background-color: ${props => props.theme.favouriteBg};
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
     margin-left: 50px;
-    
+    transition: all .3s linear;
+    &:hover{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
 `
-export const CityInfo = styled.p`
+export const CityInfo = styled.span`
+    user-select:none;
     width: 100%;
     font-size: 27px;
     color: white;
+    margin: 20px 0px;
     text-align: center;
 ` 

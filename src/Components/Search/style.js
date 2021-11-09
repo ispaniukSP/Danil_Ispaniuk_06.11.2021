@@ -6,7 +6,7 @@ export const SearchFrom = styled.form`
     border-radius: 10px;
     padding: 5px;
     display: flex;
-    position: relative;
+    margin: 50px 0 60px;
 `
 export const SearchInput = styled.input`
     width: 100%;

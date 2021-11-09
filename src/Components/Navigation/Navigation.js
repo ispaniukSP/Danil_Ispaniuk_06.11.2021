@@ -9,9 +9,9 @@ export const Navigation = () => {
         <Styled.Navigation>
             <Flex width='100%' justify="space-between">
                 <Link to="/">
-                    <ButtonUI title='Home' color="#F2AA4CFF" />
+                    <ButtonUI color="error" title='Home' />
                 </Link>
-                <Link to="/favorite">
+                <Link to="/favourite">
                     <ButtonUI title='Favourite' />
                 </Link>
             </Flex>

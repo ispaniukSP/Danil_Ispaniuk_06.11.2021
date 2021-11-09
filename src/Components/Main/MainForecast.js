@@ -2,16 +2,18 @@ import React from 'react'
 import * as Styled from './style'
 import { Flex } from './../Flex/Flex';
 import ChangeUnitTemp from './../Common/ChangeUnitTemp';
+import { useSelector } from 'react-redux';
 
 export const MainForecast = (props) => {
-    const { forecast, toggleTemp } = props;
+    const { forecast } = props;
+    const getTemp = useSelector(state => state.temp)
     const {getCelsius, getFahrenheit} = ChangeUnitTemp();
 
     const getWeekDay = (day) => {
         return new Date(day.Date).toLocaleDateString('en-US', {weekday: 'long'})  
     } 
     const getTemperature = (temp) =>{
-        return toggleTemp ? getFahrenheit(temp) : getCelsius(temp);
+        return getTemp ? getFahrenheit(temp) : getCelsius(temp);
     }
     return forecast.length ? forecast.map((item, index) => ((
         <Styled.Forecast key={index}>

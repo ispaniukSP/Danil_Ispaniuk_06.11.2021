@@ -8,12 +8,13 @@ export const MainContent = styled.div`
         outline: none;
     }
     padding: 30px;
+    margin: 0 5%;
     transition: all .5s ease;
 `
 export const CityIcon = styled.div`
     width: 80px;
     height: 80px;
-    background: #ccc;
+    background: #F8EBD9;
     border-radius: 5px;
 `
 export const CityName = styled.p`
@@ -53,13 +54,14 @@ export const ButtonFavorite = styled.button`
     }
 `
 export const WeatherForecast = styled.p`
+    max-width: 70%;
     font-size: 30px;
     color: white;
 `
 export const Forecast = styled.div`
     width: 150px;
     height: 200px;
-    background: #ccccccd7;
+    background: #F8EBD9;
     color: #474747;
     margin-bottom: 20px;
     border-radius: 10px;
