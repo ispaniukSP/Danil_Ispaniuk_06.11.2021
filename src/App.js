@@ -21,9 +21,12 @@ const LightTheme ={
   buttonHover: '#fff',
   buttonHoverColor: '#474747',
   contentBackground: '#b38867',
+  forecasetBackGround: "#F8EBD9",
+  forecasetColor: "#282c36",
   searchColor:"#282c36",
   searchBorder: "#be762a",
   favouriteBg: '#b38867',
+  favouriteBoxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
 }
 
 const DarkTheme ={
@@ -35,9 +38,12 @@ const DarkTheme ={
   buttonHover: '#fff',
   buttonHoverColor: '#474747',
   contentBackground: '#283655',
+  forecasetBackGround: "#4D648D",
+  forecasetColor: "#fff",
   searchColor:"#fff",
   searchBorder: "#ffffffa3",
   favouriteBg: '#4D648D',
+  favouriteBoxShadow:"rgba(255, 255, 255, 0.33) 0px 0px 15px",
 }
 
 const themes ={

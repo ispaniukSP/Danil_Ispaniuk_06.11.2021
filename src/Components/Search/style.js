@@ -7,6 +7,7 @@ export const SearchFrom = styled.form`
     padding: 5px;
     display: flex;
     margin: 50px 0 60px;
+    position relative;
 `
 export const SearchInput = styled.input`
     width: 100%;
@@ -22,6 +23,7 @@ export const SearchInput = styled.input`
     }
 `
 export  const DropDown = styled.div`
+cursor: pointer;
     position: absolute;
     top: 30px;
     width: 90%;

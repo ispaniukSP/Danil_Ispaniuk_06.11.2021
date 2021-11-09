@@ -15,6 +15,7 @@ export const Favourite = styled.div`
     height: 70vh;
 `
 export const FavouriteItem = styled.div`
+    cursor: pointer;
     width: 220px;
     height: 320px;
     background-color: ${props => props.theme.favouriteBg};
@@ -26,7 +27,7 @@ export const FavouriteItem = styled.div`
     margin-left: 50px;
     transition: all .3s linear;
     &:hover{
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        box-shadow: ${props => props.theme.favouriteBoxShadow};
     }
 `
 export const CityInfo = styled.span`

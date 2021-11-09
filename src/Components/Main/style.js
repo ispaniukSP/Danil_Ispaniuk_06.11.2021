@@ -14,8 +14,9 @@ export const MainContent = styled.div`
 export const CityIcon = styled.div`
     width: 80px;
     height: 80px;
-    background: #F8EBD9;
     border-radius: 5px;
+    background-color: ${props => props.theme.forecasetBackGround};
+    transition: all .5s ease;
 `
 export const CityName = styled.p`
     font-size: 20px;
@@ -61,8 +62,9 @@ export const WeatherForecast = styled.p`
 export const Forecast = styled.div`
     width: 150px;
     height: 200px;
-    background: #F8EBD9;
-    color: #474747;
+    background-color: ${props => props.theme.forecasetBackGround};
+    color: ${props => props.theme.forecasetColor};
+    transition: all .5s ease;
     margin-bottom: 20px;
     border-radius: 10px;
     &:not(:last-child){
