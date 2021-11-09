@@ -50,7 +50,6 @@ const themes ={
   light: LightTheme,
   dark: DarkTheme
 }
-
 const store = createStore(
   allReducers
 )

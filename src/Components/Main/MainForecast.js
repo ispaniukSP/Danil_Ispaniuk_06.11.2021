@@ -24,4 +24,3 @@ export const MainForecast = (props) => {
         </Styled.Forecast>
     )) )  : null
 }
-// day.Temperature.Maximum.Value
