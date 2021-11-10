@@ -22,7 +22,10 @@ export const HeaderTitle = styled.h2`
 export const Toggle = styled.button`
     cursor: pointer;
     height: 40px;
-    width: 40px;   
+    width: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
     border-radius: 50%;
     border: none;
     margin-right: 20px;

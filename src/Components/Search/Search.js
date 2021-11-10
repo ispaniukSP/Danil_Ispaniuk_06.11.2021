@@ -13,8 +13,8 @@ export default function Search(props) {
     const getRegionID = (city) => {
         setActiveDropDown(false)
         localStorage.setItem('cityID', city.Key)
-        submitSearch(city.Key)
-        setCityName(city.LocalizedName)
+        submitSearch(city?.Key)
+        setCityName(city?.LocalizedName)
     }
 
     useEffect(async() => {
@@ -23,23 +23,23 @@ export default function Search(props) {
             return ;
         } else{
             const response = await getSearchWeather(city);
-            setLocations(response)
-            setActiveDropDown(true)
+            response && setLocations(response)
+            response && setActiveDropDown(true)
         }
     }, [city])
 
     const onSubmit = (e) => {
         e.preventDefault()
-        const cityName = e.target[0].value;
+        const cityName = locations[0]?.LocalizedName;
         const getCityKey = locations[0]?.Key
         localStorage.setItem('cityID', getCityKey)
-        city && setCity(cityName)
-        city && submitSearch(getCityKey)
-        city && setCityName(cityName)
+        locations.length && setCity(cityName)
+        locations.length && submitSearch(getCityKey)
+        locations.length && setCityName(cityName)
         setActiveDropDown(false)
     }
 
-    const handleChange =  debounce((text) => setCity(text), 500)
+    const handleChange =  debounce((text) => setCity(text), 350)
 
     return (
         <Styled.SearchFrom {...props.theme} onSubmit={onSubmit}>

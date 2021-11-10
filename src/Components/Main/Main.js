@@ -2,8 +2,9 @@ import React, {useState,useEffect} from 'react'
 import { Flex } from '../Flex/Flex'
 import Search from '../Search/Search';
 import MainContent from './MainContent';
-import { getCityWeather } from '../../api';
+import { getCityWeather, getGeoPositionCity } from '../../api';
 import LoaderPlane from '../Common/Loader';
+import { useSelector } from 'react-redux';
 
 
 export default function Main(props) {
@@ -12,13 +13,25 @@ export default function Main(props) {
     const [cityID, setCityID] = useState(getLocalCityID || 215854)
     const [cityForecast, setCityForecast] = useState('');
     const [checkLoader, setCheckLoader] = useState(true)
+    const geo = useSelector(state => state.geo)
 
     const {theme} = props;
+
+    useEffect(async() => {
+        if(geo){
+            setCheckLoader(true)
+            const response = await getGeoPositionCity(geo.payload)
+            setCityID(response.Key)
+            setCity(response.LocalizedName)
+            setCheckLoader(false)
+        }
+    }, [geo])
 
     useEffect(async() => {
         const response = await getCityWeather(cityID)
         setCityForecast(response)
         setCheckLoader(false)
+        console.log(geo)
     }, [cityID])
 
     const getCityName = (name) => {

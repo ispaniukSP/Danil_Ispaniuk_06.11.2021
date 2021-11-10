@@ -55,7 +55,7 @@ export const ButtonFavorite = styled.button`
     }
 `
 export const WeatherForecast = styled.p`
-    max-width: 70%;
+    width: 100%;
     font-size: 30px;
     color: white;
 `
@@ -65,7 +65,6 @@ export const Forecast = styled.div`
     background-color: ${props => props.theme.forecasetBackGround};
     color: ${props => props.theme.forecasetColor};
     transition: all .5s ease;
-    margin-bottom: 20px;
     border-radius: 10px;
     &:not(:last-child){
         margin-right: 20px;

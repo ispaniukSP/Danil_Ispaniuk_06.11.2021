@@ -1,18 +1,32 @@
-import React from 'react'
-import * as Styled from './style'
-import {BsCloudSunFill} from 'react-icons/bs'
-import {BsFillCloudMoonFill} from 'react-icons/bs'
+import React, { useState, useEffect } from 'react';
 import { FaThermometerHalf } from "react-icons/fa";
-import { Flex } from './../Flex/Flex';
-import {Navigation} from '../Navigation/Navigation';
+import {BsFillCloudMoonFill, BsCloudSunFill} from 'react-icons/bs';
+import { BiGlobe } from "react-icons/bi";
 import { useDispatch } from 'react-redux';
-import { changeTemp } from './../../store/actions';
+import {Navigation} from '../Navigation/Navigation';
+import { changeGeoLocation, changeTemp } from './../../store/actions';
+import { Flex } from './../Flex/Flex';
+import * as Styled from './style';
 
 
 
 export default function Header(props) {
-    const {theme, setTheme} = props
+    const {theme, setTheme} = props;
     const dispatch = useDispatch()
+
+    const findGeoPos = () => {
+        const getPosition = (position) => {
+            const paramArr = {}
+            paramArr.latitude = position.coords.latitude
+            paramArr.longitude = position.coords.longitude
+            dispatch(changeGeoLocation(paramArr))
+            
+        }
+        const error = () => {
+            alert('Unable to retrieve your location')
+        }
+        navigator.geolocation.getCurrentPosition(getPosition, error)
+    }
 
     const changeTheme = () => {
         theme === "light" ? setTheme("dark") : setTheme("light");
@@ -33,6 +47,10 @@ export default function Header(props) {
                 </Styled.HeaderTitle>
 
                 <Flex align="center">
+                    <Styled.Toggle onClick={findGeoPos}>
+                        <BiGlobe size={30} />
+                    </Styled.Toggle>
+
                     <Styled.Toggle onClick={changeUnitTemp}>
                         <FaThermometerHalf size={30} />
                     </Styled.Toggle>

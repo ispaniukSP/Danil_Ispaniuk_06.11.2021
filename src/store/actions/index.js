@@ -4,3 +4,9 @@ export const changeTemp = (temp) => {
         payload: !temp
     }
 }
+export const changeGeoLocation = (cityID) => {
+    return{
+        type: "geoPos",
+        payload: cityID
+    }
+}

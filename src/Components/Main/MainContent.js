@@ -79,7 +79,7 @@ const MainContent = (props) => {
 
                 </Flex>
 
-                <Flex margin="30px 0" width="100%" align="center" justify="center">
+                <Flex margin="30px 0" maxWidth="800px" align="center" justify="center">
                     <Styled.WeatherForecast>
                         {cityForecast?.Headline?.Text}
                     </Styled.WeatherForecast>
