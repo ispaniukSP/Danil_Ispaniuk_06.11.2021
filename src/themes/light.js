@@ -1,0 +1,17 @@
+export default {
+  pageBackground: "#F2EDD7",
+  headerBackground: "#ddc3a5",
+  headerColor: "#1d3c45",
+  buttonBackColor: "#f2edd7",
+  buttonColor: "#474747",
+  buttonHover: "#fff",
+  buttonHoverColor: "#474747",
+  contentBackground: "#b38867",
+  forecasetBackGround: "#F8EBD9",
+  forecasetColor: "#282c36",
+  searchColor: "#282c36",
+  searchBorder: "#be762a",
+  favouriteBg: "#b38867",
+  favouriteBoxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+  errorBackground: "#b38867",
+};

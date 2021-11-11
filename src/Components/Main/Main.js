@@ -1,56 +1,41 @@
-import React, {useState,useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { Flex } from '../Flex/Flex'
 import Search from '../Search/Search';
 import MainContent from './MainContent';
-import { getCityWeather, getGeoPositionCity } from '../../api';
-import LoaderPlane from '../Common/Loader';
-import { useSelector } from 'react-redux';
+import AppLoader from "../Common/Loader";
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouteMatch, useHistory } from 'react-router';
+import { getCityWeatherAction } from '../../store/actions/weather/weather.action';
+import { getCityById } from '../../store/actions/city/city.action';
+import ErrorContent from './../Error/ErrorContent';
 
 
-export default function Main(props) {
-    const getLocalCityID = localStorage.getItem('cityID')
-    const [city, setCity] = useState('Tel Aviv');
-    const [cityID, setCityID] = useState(getLocalCityID || 215854)
-    const [cityForecast, setCityForecast] = useState('');
-    const [checkLoader, setCheckLoader] = useState(true)
-    const geo = useSelector(state => state.geo)
+export default function Main({ theme }) {
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const { params } = useRouteMatch()
+    const weatherLoader = useSelector(state => state.weather.loading)
+    const cityLoader = useSelector(state => state.city.loading)
+    const handleError = useSelector(state => state.weather.error)
 
-    const {theme} = props;
-
-    useEffect(async() => {
-        if(geo){
-            setCheckLoader(true)
-            const response = await getGeoPositionCity(geo.payload)
-            setCityID(response.Key)
-            setCity(response.LocalizedName)
-            setCheckLoader(false)
+    useEffect(() => {
+        if(!params.cityID){
+            history.push(`/city/215854`)
+            dispatch(getCityById('215854'))
+        }else{
+            dispatch(getCityById(params.cityID))
+            dispatch(getCityWeatherAction(params.cityID))
         }
-    }, [geo])
-
-    useEffect(async() => {
-        const response = await getCityWeather(cityID)
-        setCityForecast(response)
-        setCheckLoader(false)
-        console.log(geo)
-    }, [cityID])
-
-    const getCityName = (name) => {
-        localStorage.setItem('cityName', name)
-        setCity(name)
-    }
+    }, [params.cityID])
 
     return (
         <Flex width="100%" minHeight="80vh" direction="column" justify="space-around" align="center">
-            <Search 
+            {!handleError ?<Search 
                 theme={theme} 
-                submitSearch={setCityID} 
-                setCityName={getCityName} 
-            />
-           {checkLoader ? (<LoaderPlane />) : (<MainContent 
+            /> : null}
+           {!handleError ? (weatherLoader || cityLoader ? (<AppLoader />) : (<MainContent 
                 theme={theme} 
-                cityForecast={cityForecast} 
-                city={localStorage.getItem('cityName') || city}  
-            />)}
+            />)) : <ErrorContent theme={theme} />}
         </Flex>
     )
 }

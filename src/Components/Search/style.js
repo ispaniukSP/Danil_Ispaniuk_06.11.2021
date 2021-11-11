@@ -36,7 +36,10 @@ cursor: pointer;
 `
 
 export const DropDownItem = styled.p`
-    width: calc(100% - 10px);
+    max-width: calc(100% - 10px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
     height: 40px;
     padding: 0;
     padding-left: 10px;

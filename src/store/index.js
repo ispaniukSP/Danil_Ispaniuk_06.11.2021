@@ -1,10 +1,15 @@
-import { combineReducers } from 'redux'
-import toggleTemp from './isToggleTemp'
-import getGeoPosition from './isCityID';
+import { applyMiddleware, compose, createStore } from "redux";
+import thunk from "redux-thunk";
+import allReducers from "./reducers";
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const allReducers = combineReducers({
-    temp: toggleTemp,
-    geo: getGeoPosition,
-})
+const middlewares = [thunk]; 
 
-export default allReducers;
+const composeEnhancement = process.env.REACT_APP_ENV === 'production' ? compose : composeWithDevTools;
+
+export const store = createStore(
+  allReducers,
+  composeEnhancement(
+    applyMiddleware(...middlewares)
+  )
+)

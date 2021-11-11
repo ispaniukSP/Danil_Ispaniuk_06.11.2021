@@ -40,6 +40,25 @@ export const ToggleHeart = styled.button`
     width: 40px;   
     border-radius: 50%;
 `
+
+export const Toggle = styled.button`
+    cursor: pointer;
+    height: 40px;
+    width: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    border-radius: 50%;
+    border: none;
+    margin-right: 20px;
+    background-color: ${props => props.theme.headerColor};
+    color: ${props => props.theme.headerBackground};
+    &:focus {
+        outline: none;
+    }
+    transition: all .5s ease;
+`;
+
 export const ButtonFavorite = styled.button`
     border: 1px solid #fff;
     ouline none;
@@ -66,9 +85,8 @@ export const Forecast = styled.div`
     color: ${props => props.theme.forecasetColor};
     transition: all .5s ease;
     border-radius: 10px;
-    &:not(:last-child){
-        margin-right: 20px;
-    }
+    margin-top: 30px;
+    margin-right: 20px;
 `
 export const ForecastDay = styled.p`
     font-size: 20px;
@@ -77,4 +95,9 @@ export const ForecastDay = styled.p`
 export const ForecastTemperature = styled.p`
     font-size: 20px;
     margin: 10px 0;
+`
+
+export const ChangeUnit = styled.div`
+    color: white;
+    font-size: 20px;
 `

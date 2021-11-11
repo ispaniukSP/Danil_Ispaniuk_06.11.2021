@@ -2,9 +2,10 @@ import styled from "styled-components"
 
 export const Header = styled.header`
     width:100%;
-    height: 100px;
+    min-height: 100px;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     background-color: ${props => props.theme.headerBackground};
     &:focus {
         outline: none;

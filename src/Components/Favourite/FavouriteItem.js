@@ -1,11 +1,16 @@
 import React from 'react'
+import { useHistory } from 'react-router';
 import * as Styled from './style'
 
-const FavouriteItem = (props) => {
-    const {city, temp, cityID} = props;
+const FavouriteItem = ({city, temp, cityID}) => {
+    const history = useHistory();
+
+    const clickHandler = () => {
+        history.push(`/city/${cityID}`)
+    }
 
     return (
-        <Styled.FavouriteItem data-key={cityID} data-city={city}>
+        <Styled.FavouriteItem onClick={clickHandler} data-city={city}>
             <Styled.CityInfo> 
                     {city}
             </Styled.CityInfo>

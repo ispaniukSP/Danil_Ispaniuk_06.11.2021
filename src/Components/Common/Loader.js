@@ -1,7 +1,7 @@
 import React from "react";
 import Loader from "react-loader-spinner";
 
-const LoaderPlane = () => {
+const AppLoader = () => {
   return (
     <Loader
       type="Puff"
@@ -12,4 +12,4 @@ const LoaderPlane = () => {
   );
 }
 
-export default LoaderPlane;
+export default AppLoader;

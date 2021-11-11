@@ -1,97 +1,116 @@
-import React, {useState, useEffect} from 'react'
-import * as Styled from './style'
-import { Flex } from './../Flex/Flex';
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { MainForecast } from './MainForecast';
-import ChangeUnitTemp from '../Common/ChangeUnitTemp';
-import {useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import ChangeUnitTemp from "../Common/ChangeUnitTemp";
+import { MainForecast } from "./MainForecast";
+import Switch from "@mui/material/Switch";
+import { Flex } from "./../Flex/Flex";
+import * as Styled from "./style";
+import { setUnit } from "../../store/actions/weather/weather.action";
+import { useHistory } from "react-router";
 
 const MainContent = (props) => {
-    const [activeHeart, setActiveHeart] = useState(false)
-    const [forecast, setForecast] = useState([])
-    const [cityName, setCityName] = useState()
-    const {cityForecast, city} = props;
-    const {getCelsius, getFahrenheit} = ChangeUnitTemp();
-    const getTemp = useSelector(state => state.temp)
+  const [activeHeart, setActiveHeart] = useState(false);
+  const { getCelsius, getFahrenheit } = ChangeUnitTemp();
 
-    useEffect(() => {
-        cityForecast && setForecast(cityForecast.DailyForecasts)
-    }, [cityForecast])
+  const weather = useSelector((state) => state.weather);
+  const unit = useSelector((state) => state.weather.unit);
+  const currentCity = useSelector((state) => state.city.selectedCity);
 
-    useEffect(() =>{
-        setCityName(city)
-        !!localStorage.getItem(`city-${city}`) ? setActiveHeart(true) : setActiveHeart(false)
-    }, [city])
-    const addToFav = () => {
-        const conditionAddToFav = () => {
-            const cityObject = {
-                name: city,
-                temp: forecast[0].Temperature.Maximum.Value,
-                cityID: localStorage.getItem("cityID"),
-            }
-            localStorage.setItem(`city-${city}`, JSON.stringify(cityObject) )
-           return setActiveHeart(true)
-        }
+  const dispatch = useDispatch();
+  const label = { inputProps: { "aria-label": "Switch demo" } };
+  const history = useHistory();
 
-        const conditionRemoveFromFav = () => {
-            localStorage.removeItem(`city-${city}`)
-            return setActiveHeart(false)
-         }
-
-        activeHeart ? conditionRemoveFromFav () : conditionAddToFav()
-        
+  useEffect(() => {
+    if (currentCity?.Key) {
+      let cities = JSON.parse(localStorage.getItem("cities")) || [];
+      const isCityExist = cities.find((el) => el.cityId === currentCity.Key);
+      setActiveHeart(!!isCityExist);
+      history.push(`/city/${currentCity?.Key}`);
     }
+  }, [currentCity]);
 
-    const getUnitTemp = (temp) => {
-        return getTemp ? getFahrenheit(temp) : getCelsius(temp);
+  const addToFav = () => {
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+    const isCityExist = cities.find((el) => el.cityId === currentCity.Key);
+    if (isCityExist) {
+      cities = cities.filter((el) => el.cityId !== currentCity.Key);
+    } else {
+      cities = [
+        ...cities,
+        {
+          name: currentCity.LocalizedName,
+          cityId: currentCity.Key,
+          temp: weather.current?.Temperature.Imperial.Value,
+        },
+      ];
     }
+    localStorage.setItem("cities", JSON.stringify(cities));
+    setActiveHeart(!isCityExist);
+  };
 
-    return (
-        <Styled.MainContent {...props.theme}>
-            <Flex direction="column" align="center" justify="space-between" height="100%">
-                <Flex 
-                    width="100%" 
-                    height="100px"
-                    justify="space-between"
-                >
-                    <Flex>
-                        <Styled.CityIcon>
+  const controlUnit = () => {
+    dispatch(setUnit(!unit));
+  };
 
-                        </Styled.CityIcon>
-                        <Flex 
-                            direction="column"
-                            padding="0 0 0 10px"
-                        >
-                            <Styled.CityName>{localStorage.getItem('cityName') || cityName}</Styled.CityName>
-                            <Styled.CityTemperature>{forecast.length && getUnitTemp(forecast[0].Temperature.Maximum.Value)}</Styled.CityTemperature>
-                        </Flex>
-                    </Flex>
+  const getUnitTemp = (temp) => {
+    return unit ? getCelsius(temp) : getFahrenheit(temp);
+  };
 
-                    <Flex height="max-content">
-                        <Styled.ToggleHeart>
-                            {!activeHeart ? <AiOutlineHeart color="white" size={30} /> : <AiFillHeart color="#fff" size={30} />}
-                        </Styled.ToggleHeart>
-
-                        <Styled.ButtonFavorite onClick={addToFav}>
-                            Add to Favorite
-                        </Styled.ButtonFavorite>
-                    </Flex>
-
-                </Flex>
-
-                <Flex margin="30px 0" maxWidth="800px" align="center" justify="center">
-                    <Styled.WeatherForecast>
-                        {cityForecast?.Headline?.Text}
-                    </Styled.WeatherForecast>
-                </Flex>
-
-                <Flex width="100%" wrap="wrap">
-                    <MainForecast forecast={forecast} />
-                </Flex>
+  return (
+    <Styled.MainContent {...props.theme}>
+      <Flex
+        direction="column"
+        align="center"
+        justify="space-between"
+        height="100%"
+      >
+        <Flex
+          width="100%"
+          minHeight="100px"
+          justify="space-between"
+          wrap="wrap"
+        >
+          <Flex>
+            <Styled.CityIcon />
+            <Flex direction="column" padding="0 0 0 10px">
+              <Styled.CityName>{currentCity?.LocalizedName}</Styled.CityName>
+              <Styled.CityTemperature>
+                {weather.current &&
+                  getUnitTemp(weather.current?.Temperature.Imperial.Value)}
+              </Styled.CityTemperature>
             </Flex>
-           
-        </Styled.MainContent>
-    )
-}
+          </Flex>
 
-export default MainContent
+          <Flex height="max-content" margin="15px 0 0 0">
+            <Styled.ChangeUnit>
+              <Flex align="center" margin="0 20px 0 0">
+                C° <Switch {...label} onClick={() => controlUnit()} /> F°
+              </Flex>
+            </Styled.ChangeUnit>
+
+            <Styled.ToggleHeart onClick={() => addToFav()}>
+              {activeHeart ? (
+                <AiFillHeart color="#fff" size={30} />
+              ) : (
+                <AiOutlineHeart color="white" size={30} />
+              )}
+            </Styled.ToggleHeart>
+          </Flex>
+        </Flex>
+
+        <Flex maxWidth="800px" align="center" justify="center">
+          <Styled.WeatherForecast>
+            {weather.current?.WeatherText}
+          </Styled.WeatherForecast>
+        </Flex>
+
+        <Flex width="100%" wrap="wrap" justify="center">
+          <MainForecast />
+        </Flex>
+      </Flex>
+    </Styled.MainContent>
+  );
+};
+
+export default MainContent;
