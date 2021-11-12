@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const ErrorContent = styled.div`
-${console.log(props => console.log(props))}
     max-width: 570px;
     margin: 0 20px;
     padding: 40px;

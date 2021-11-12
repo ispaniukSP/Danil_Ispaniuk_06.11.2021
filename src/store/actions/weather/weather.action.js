@@ -7,7 +7,7 @@ const getCityWeatherRequest = () => ({
 
 const getCityWeatherSuccess = (payload) => ({
   type: weatherTypes.GET_CITY_WEATHER_SUCCESS,
-  payload
+  payload,
 });
 
 const getCityWeatherFailure = (err) => ({
@@ -15,17 +15,13 @@ const getCityWeatherFailure = (err) => ({
   payload: err,
 });
 
-
-export const getCityWeatherAction = (cityID) => async (dispatch) => {
+export const getCityWeatherAction = (cityID, errorCallback) => async (dispatch) => {
   try {
     dispatch(getCityWeatherRequest());
-    const currentDay = await instance.get(`/currentconditions/v1/${cityID}`, {
-      params: { apikey: process.env.REACT_APP_API_KEY },
-    });
+    const currentDay = await instance.get(`/currentconditions/v1/${cityID}`);
 
     const forecastDays = await instance.get(
-      `/forecasts/v1/daily/5day/${cityID}`,
-      { params: { apikey: process.env.REACT_APP_API_KEY } }
+      `/forecasts/v1/daily/5day/${cityID}`
     );
     dispatch(
       getCityWeatherSuccess({
@@ -34,11 +30,12 @@ export const getCityWeatherAction = (cityID) => async (dispatch) => {
       })
     );
   } catch (err) {
+    errorCallback(err)
     dispatch(getCityWeatherFailure(err));
   }
 };
 
 export const setUnit = (temperature) => ({
   type: weatherTypes.SET_UNIT_TEMP,
-  payload: temperature
-})
+  payload: temperature,
+});

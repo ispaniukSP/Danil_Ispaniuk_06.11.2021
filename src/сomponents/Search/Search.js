@@ -24,15 +24,15 @@ export default function Search(props) {
         searchText.current.value='';
     }
 
-    useEffect(async() => {
+    useEffect(() => {
         if(!valueChange){
             setActiveDropDown(false)
-            dispatch(getCityAutocomplete())
-            return ;
         } else{
             dispatch(getCityAutocomplete(valueChange))
             setLocations(cities)
-            locations && setActiveDropDown(true)
+            if(locations.length){
+                setActiveDropDown(true)
+            }
         }
     }, [valueChange, cities.length])
 
@@ -60,16 +60,15 @@ export default function Search(props) {
     }),[])
 
     return (
-            <Styled.SearchFrom {...props.theme} onSubmit={onSubmit} >
+            <Styled.SearchFrom onSubmit={onSubmit} >
             <BsSearch size={20} color="#424242"/>
             <Styled.SearchInput 
-                {...props.theme}
                 placeholder="Search..." 
                 onChange={e => handleChange(e.target.value)}  
                 ref={searchText}       
             />
             {
-                activeDropDown  && locations && 
+                activeDropDown  && locations.length && 
                     <Styled.DropDown>
                         {locations.map((cityItem) => {
                             return(

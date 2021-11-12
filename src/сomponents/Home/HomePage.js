@@ -5,8 +5,8 @@ import Main from './../Main/Main';
 
 
 export default function HomePage(props) {
-    return (
-      <Styled.Wrapper {...props.theme}>
+  return (
+      <Styled.Wrapper>
           <Header {...props}  />
           <Main {...props} />
       </Styled.Wrapper>

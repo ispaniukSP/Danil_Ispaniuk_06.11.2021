@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: 'https://dataservice.accuweather.com',
+    baseURL: process.env.REACT_APP_BASE_URL,
+    params: {apikey: process.env.REACT_APP_API_KEY},
 })

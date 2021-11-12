@@ -33,8 +33,19 @@ export const FavouriteItem = styled.div`
 export const CityInfo = styled.span`
     user-select:none;
     width: 100%;
-    font-size: 27px;
+    font-size: 24px;
+    font-weight: bold;
     color: white;
     margin: 20px 0px;
     text-align: center;
 ` 
+export const CityInfoWeather = styled.span`
+    font-size: 24px;
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+`
+export const FavouriteEmpty = styled.span`
+    font-size: 30px;
+    font-weight: bold; 
+    color: ${props => props.theme.favouriteBg}`

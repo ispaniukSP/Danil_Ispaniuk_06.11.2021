@@ -2,14 +2,13 @@ import React, { useMemo } from 'react'
 import Header from '../Header/Header'
 import * as Styled from './style'
 import FavouriteItem from './FavouriteItem';
-import ChangeUnitTemp from './../Common/ChangeUnitTemp';
+import {getCelsius, getFahrenheit} from '../../utils/weatherUnit'
 import { useSelector } from 'react-redux';
 import ErrorContent from './../Error/ErrorContent';
 import { Flex } from './../Flex/Flex';
 
-export const Favourite = ({theme}) => {
+export const Favourite = ({theme, setTheme}) => {
     const getTemp = useSelector(state => state.temp)
-    const {getCelsius, getFahrenheit} = ChangeUnitTemp();
     const handleError = useSelector(state => state.weather.error)
     
     const favCities = useMemo(() => {
@@ -22,12 +21,18 @@ export const Favourite = ({theme}) => {
     }
 
     return (
-        <Styled.Wrapper {...theme}>
-            <Header {...theme} />
+        <Styled.Wrapper>
+            <Header theme={theme} setTheme={setTheme} />
             <Styled.Favourite>{ 
             !handleError ? ( favCities.length && favCities ? (
                     favCities.map((city) => <FavouriteItem key={city.cityId} cityID={city.cityId} city={city.name} temp={getTemperature(city.temp)} />)
-                ) : "Add your favourite cities...")
+                ) : (
+                    <Flex width="100%" height="100%" align="center" justify="center">
+                        <Styled.FavouriteEmpty>
+                            Add your favourite city...
+                        </Styled.FavouriteEmpty>
+                    </Flex>
+                ))
                 : (<Flex width="100%" height="100%" align="center" justify="center">
                     <ErrorContent theme={theme} />
                 </Flex>)

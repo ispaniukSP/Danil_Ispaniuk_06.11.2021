@@ -1,14 +1,12 @@
 import React from "react";
 import * as Styled from "./style";
 import { Flex } from "./../Flex/Flex";
-import ChangeUnitTemp from "./../Common/ChangeUnitTemp";
+import {getCelsius, getFahrenheit} from '../../utils/weatherUnit'
 import { useSelector } from "react-redux";
 
 export const MainForecast = (props) => {
   const weather = useSelector(state => state.weather)
   const unit = useSelector(state => state.weather.unit)
-
-  const { getCelsius, getFahrenheit } = ChangeUnitTemp();
 
   const getWeekDay = (day) => {
     return new Date(day.Date).toLocaleDateString("en-US", { weekday: "long" });
@@ -17,8 +15,8 @@ export const MainForecast = (props) => {
     return unit ? getCelsius(temp) : getFahrenheit(temp);
   };
 
-  return (weather.forecast && weather.forecast.map((item, index) => (
-      <Styled.Forecast key={index}>
+  return (weather.forecast && weather.forecast.map((item) => (
+      <Styled.Forecast key={item.EpochDate}>
         <Flex direction="column" align="center">
           <Styled.ForecastDay>{getWeekDay(item)}</Styled.ForecastDay>
           <Styled.ForecastTemperature>

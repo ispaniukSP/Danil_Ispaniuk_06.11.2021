@@ -1,7 +1,7 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
-import ChangeUnitTemp from "../Common/ChangeUnitTemp";
+import {getCelsius, getFahrenheit} from '../../utils/weatherUnit'
 import { MainForecast } from "./MainForecast";
 import Switch from "@mui/material/Switch";
 import { Flex } from "./../Flex/Flex";
@@ -11,7 +11,6 @@ import { useHistory } from "react-router";
 
 const MainContent = (props) => {
   const [activeHeart, setActiveHeart] = useState(false);
-  const { getCelsius, getFahrenheit } = ChangeUnitTemp();
 
   const weather = useSelector((state) => state.weather);
   const unit = useSelector((state) => state.weather.unit);
@@ -26,7 +25,6 @@ const MainContent = (props) => {
       let cities = JSON.parse(localStorage.getItem("cities")) || [];
       const isCityExist = cities.find((el) => el.cityId === currentCity.Key);
       setActiveHeart(!!isCityExist);
-      history.push(`/city/${currentCity?.Key}`);
     }
   }, [currentCity]);
 

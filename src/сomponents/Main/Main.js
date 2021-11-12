@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import { Flex } from '../Flex/Flex'
 import Search from '../Search/Search';
 import MainContent from './MainContent';
-import AppLoader from "../Common/Loader";
+import AppLoader from "../Loader/Loader";
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouteMatch, useHistory } from 'react-router';
 import { getCityWeatherAction } from '../../store/actions/weather/weather.action';
@@ -24,7 +24,11 @@ export default function Main({ theme }) {
             dispatch(getCityById('215854'))
         }else{
             dispatch(getCityById(params.cityID))
-            dispatch(getCityWeatherAction(params.cityID))
+            dispatch(getCityWeatherAction(params.cityID, (error) => {
+                if(error.response.status === 400){
+                    history.push(`/city/215854`)
+                }
+            }))
         }
     }, [params.cityID])
 

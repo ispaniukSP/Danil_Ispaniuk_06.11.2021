@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import {
@@ -7,15 +7,18 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { Favourite } from "./Components/Favourite/Favourite";
+import { Favourite } from "./сomponents/Favourite/Favourite";
 import { themes } from "./themes";
 import { store } from "./store";
-import HomePage from "./Components/Home/HomePage";
+import HomePage from "./сomponents/Home/HomePage";
 
 function App() {
   const getAppTheme = localStorage.getItem('appTheme')
   const [theme, setTheme] = useState(getAppTheme || "light");
-  localStorage.setItem('appTheme' , theme)
+
+  useEffect(() => {
+    localStorage.setItem('appTheme' , theme)
+  }, [theme])
 
   return (
     <ThemeProvider theme={themes[theme]}>
