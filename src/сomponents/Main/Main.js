@@ -25,7 +25,7 @@ export default function Main({ theme }) {
         }else{
             dispatch(getCityById(params.cityID))
             dispatch(getCityWeatherAction(params.cityID, (error) => {
-                if(error.response.status === 400){
+                if(error?.response.status === 400){
                     history.push(`/city/215854`)
                 }
             }))
